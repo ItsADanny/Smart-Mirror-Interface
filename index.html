@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Danny's Smart Mirror</title>
+    <script>
+        //Enter the information for your smart mirror here
+        const user_firstname = "FirstName"
+        const user_lastname = "Lastname"
+        const user_gender = "male" //Switch between male and female, or if you want to use non-gendered language then put null here
+        const user_lan = "NL" //NL = dutch, EN = english
+        const user_temp = "C" //C for Celsius or F for Fahrenheit
+    </script>
+    <script src="src/js/main.js"></script>
+    <link href="src/css/main.css" rel="stylesheet">
+<!--    Import the fontawesome icon pack-->
+    <script src="https://kit.fontawesome.com/64093786fd.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!--This container will hold the current date and time for the smart-mirror-->
+    <div class="container" id="con-datetime">
+        <h1 id="welcome-message"></h1>
+        <div class="sub-container" id="sub-con-datetime">
+            <h2 id="date"></h2>
+            <h1 id="time"></h1>
+        </div>
+    </div>
+    <!--This container will hold the current weather and the weather later in the day for the smart-mirror-->
+    <div class="container" id="con-weather">
+        <h1 id="weather-header"></h1>
+        <table class="table-weather">
+            <tr>
+                <td>
+                    <div class="container-weather">
+                        <table class="table-weather">
+                            <tr>
+                                <th><i class="fa-solid fa-cloud"></i></th>
+                            </tr>
+                            <tr>
+                                <td>20&deg;C</td>
+                            </tr>
+                            <tr>
+                                <td>Bewolkt</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td>
+                    <div class="container-weather">
+                        <table class="table-weather">
+                            <tr>
+                                <th><i class="fa-solid fa-sun"></i></th>
+                            </tr>
+                            <tr>
+                                <td>20&deg;C</td>
+                            </tr>
+                            <tr>
+                                <td>Zonnig</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td>
+                    <div class="container-weather">
+                        <table class="table-weather">
+                            <tr>
+                                <th><i class="fa-solid fa-cloud-sun"></i></th>
+                            </tr>
+                            <tr>
+                                <td>20&deg;C</td>
+                            </tr>
+                            <tr>
+                                <td>Gedeeltelijk</br>bewolkt</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td>
+                    <div class="container-weather">
+                        <table class="table-weather">
+                            <tr>
+                                <th><i class="fa-solid fa-cloud-rain"></i></th>
+                            </tr>
+                            <tr>
+                                <td>20&deg;C</td>
+                            </tr>
+                            <tr>
+                                <td>DESCRIPTION</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td>
+                    <div class="container-weather">
+                        <table class="table-weather">
+                            <tr>
+                                <th><i class="fa-solid fa-cloud"></i></th>
+                            </tr>
+                            <tr>
+                                <td>20&deg;C</td>
+                            </tr>
+                            <tr>
+                                <td>DESCRIPTION</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+<!--    This container contains agenda items which we will sync from Apples agenda API-->
+    <div class="container" id="con-agenda">
+        <h1 id="agenda-header"></h1>
+    </div>
+    <div class="container" id="con-notes">
+        <h1 id="notes-header"></h1>
+    </div>
+
+<!--    Run the Javascript functions when the page is fully loaded-->
+    <script>
+        // Start the welcome message function
+        get_welcome_message(user_firstname, user_lastname, user_gender, user_lan)
+        // Start the date function
+        get_date(user_lan)
+        // Start the clock function
+        clock()
+        //Start Weather Information Retrieval
+        get_weather(user_temp, user_lan)
+        // Set the correct header texts for the selected language
+        InterfaceLan(user_lan)
+    </script>
+</body>
+</html>

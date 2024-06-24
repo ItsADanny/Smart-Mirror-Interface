@@ -1,0 +1,36 @@
+body {
+    background-color: black;
+    font-family: "Lucida Console", "Courier New", monospace;
+    color: white;
+
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 5%;
+    padding: 5%;
+    border: 4px solid white;
+    border-radius: 25px;
+}
+
+.sub-container {
+    margin: 0;
+    padding: 0;
+    line-height: 0.5;
+}
+
+.container-weather {
+    width: 120px;
+    height: 90px;
+    align-content: center;
+    padding: 5%;
+    border: 4px solid white;
+    border-radius: 25px;
+}
+
+.table-weather {
+    width: 100%;
+    text-align: center;
+}
