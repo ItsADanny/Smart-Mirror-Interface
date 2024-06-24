@@ -124,7 +124,7 @@ function get_welcome_message(firstname, lastname, gender, lan) {
     document.getElementById("welcome-message").innerHTML = message;
     // Repeat this function after 1800000 milliseconds (0.5 hours)
     t = setTimeout(function () {
-        get_welcome_message();
+        get_welcome_message(firstname, lastname, gender, lan);
     }, 1800000);
 }
 
