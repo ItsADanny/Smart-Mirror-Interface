@@ -32,6 +32,9 @@ The languages used for this interface are as follows: HTML, CSS and Javascript.
 The interface can be installed on any computer since it is just a webpage that acts as an interface for data from your own endpoints.
 
 An example would be to install this on a Raspberry PI Zero W and opening this page in kiosk mode when the PI boots up.
+
+The interface was designed for displays with a resolution of: 800 x 1280
+
     
 ## Authors
 
