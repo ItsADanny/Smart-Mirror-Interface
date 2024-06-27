@@ -33,7 +33,7 @@ The interface can be installed on any computer since it is just a webpage that a
 
 An example would be to install this on a Raspberry PI Zero W and opening this page in kiosk mode when the PI boots up.
 
-The interface was designed for displays with a resolution of: 800 x 1280
+The interface was designed for a 7 inch displays with a resolution of: 800 x 1280
 
     
 ## Authors
