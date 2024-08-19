@@ -2,14 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Danny's Smart Mirror</title>
+    <title>ItsDanny's Smart Mirror</title>
     <script>
         //Enter the information for your smart mirror here
-        const user_firstname = "Danny"
-        const user_lastname = "de Snoo"
-        const user_gender = "male" //Switch between male and female, or if you want to use non-gendered language then put null here
-        const user_lan = "EN" //NL = dutch, EN = english
-        const user_temp = "C" //C for Celsius or F for Fahrenheit
+        const user_firstname = "Firstname";
+        const user_lastname = "Lastname";
+        const user_gender = "male"; //Switch between male and female, or if you want to use non-gendered language then put null here
+        const user_lan = "NL"; //NL = dutch, EN = english
+        const user_temp = "C"; //C for Celsius or F for Fahrenheit
+        //This is the configuration for your Weather information endpoint
+        const weather_url = "https://localhost:3001";
+        const weather_apikey = "12345678910"
+        const weather_points_amount = 5;
+        //This is the configuration for your Weather information endpoint
+        const calender_url = "https://localhost:3002";
+        const calender_apikey = "23456789101"
+        const calender_points_amount = 2;
+        //This is the configuration for your Weather information endpoint
+        const notes_url = "https://localhost:3003";
+        const notes_apikey = "34567891011"
+        const notes_points_amount = 2;
     </script>
     <script src="src/js/main.js"></script>
     <link href="src/css/main.css" rel="stylesheet">
@@ -30,14 +42,14 @@
         <h1 id="weather-header"></h1>
         <table class="table-weather">
             <tr>
-                <td>
+                <td class="weather-box">
                     <div class="container-weather">
                         <table class="table-weather">
                             <tr>
                                 <th><i class="fa-solid fa-cloud"></i></th>
                             </tr>
                             <tr>
-                                <td>20&deg;C</td>
+                                <td>24&deg;C</td>
                             </tr>
                             <tr>
                                 <td>Bewolkt</td>
@@ -45,62 +57,62 @@
                         </table>
                     </div>
                 </td>
-                <td>
-                    <div class="container-weather">
-                        <table class="table-weather">
-                            <tr>
-                                <th><i class="fa-solid fa-sun"></i></th>
-                            </tr>
-                            <tr>
-                                <td>20&deg;C</td>
-                            </tr>
-                            <tr>
-                                <td>Zonnig</td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-                <td>
-                    <div class="container-weather">
-                        <table class="table-weather">
-                            <tr>
-                                <th><i class="fa-solid fa-cloud-sun"></i></th>
-                            </tr>
-                            <tr>
-                                <td>20&deg;C</td>
-                            </tr>
-                            <tr>
-                                <td>Gedeeltelijk</br>bewolkt</td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-                <td>
-                    <div class="container-weather">
-                        <table class="table-weather">
-                            <tr>
-                                <th><i class="fa-solid fa-cloud-rain"></i></th>
-                            </tr>
-                            <tr>
-                                <td>20&deg;C</td>
-                            </tr>
-                            <tr>
-                                <td>DESCRIPTION</td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-                <td>
+                <td class="weather-box">
                     <div class="container-weather">
                         <table class="table-weather">
                             <tr>
                                 <th><i class="fa-solid fa-cloud"></i></th>
                             </tr>
                             <tr>
-                                <td>20&deg;C</td>
+                                <td>24&deg;C</td>
                             </tr>
                             <tr>
-                                <td>DESCRIPTION</td>
+                                <td>Bewolkt</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td class="weather-box">
+                    <div class="container-weather">
+                        <table class="table-weather">
+                            <tr>
+                                <th><i class="fa-solid fa-cloud"></i></th>
+                            </tr>
+                            <tr>
+                                <td>24&deg;C</td>
+                            </tr>
+                            <tr>
+                                <td>Bewolkt</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td class="weather-box">
+                    <div class="container-weather">
+                        <table class="table-weather">
+                            <tr>
+                                <th><i class="fa-solid fa-cloud"></i></th>
+                            </tr>
+                            <tr>
+                                <td>25&deg;C</td>
+                            </tr>
+                            <tr>
+                                <td>Bewolkt</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td class="weather-box">
+                    <div class="container-weather">
+                        <table class="table-weather">
+                            <tr>
+                                <th><i class="fa-solid fa-cloud-rain"></i></th>
+                            </tr>
+                            <tr>
+                                <td>25&deg;C</td>
+                            </tr>
+                            <tr>
+                                <td>Gedeeltelijk<br>Bewolkt</td>
                             </tr>
                         </table>
                     </div>
@@ -111,23 +123,77 @@
 <!--    This container contains agenda items which we will sync from Apples agenda API-->
     <div class="container" id="con-agenda">
         <h1 id="agenda-header"></h1>
+        <div id="agenda-container">
+            <div class="agenda-row">
+                <table>
+                    <tr>
+                        <th class="agenda-row-header">IJsje halen</th>
+                    </tr>
+                    <tr>
+                        <td class="agenda-row-time">Vrijdag, 16:00 t/m 23:59</td>
+                    </tr>
+                    <tr>
+                        <td class="agenda-row-location">Rotterdam Centrum</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="agenda-row">
+                <table>
+                    <tr>
+                        <th class="agenda-row-header">Een test agenda punt</th>
+                    </tr>
+                    <tr>
+                        <td class="agenda-row-time">Zaterdag, 16:00 t/m 23:59</td>
+                    </tr>
+                    <tr>
+                        <td class="agenda-row-location">Home - Van Alkemadelaan 15</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
     <div class="container" id="con-notes">
         <h1 id="notes-header"></h1>
+        <div id="notes-container">
+            <div class="notes-row">
+                <table>
+                    <tr>
+                        <th class="notes-row-header">Zeg hallo tegen Mick</th>
+                    </tr>
+                    <tr>
+                        <td class="notes-row-text">Hi, Mick!<br>Als je dit ziet betekent dat<br>het interface werkt zoals het hoort!</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="notes-row">
+                <table>
+                    <tr>
+                        <th class="notes-row-header">Afmaken fysieke spiegel en Siri koppeling</th>
+                    </tr>
+                    <tr>
+                        <td class="notes-row-text">1. Bedrading solderen van de geintegreerde LED stips<br>2. Het scherm vast maken aan de spiegel<br>3. Siri koppeling afmaken voor het aansturen van de LED strips</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 
 <!--    Run the Javascript functions when the page is fully loaded-->
     <script>
         // Start the welcome message function
-        get_welcome_message(user_firstname, user_lastname, user_gender, user_lan)
+        get_welcome_message(user_firstname, user_lastname, user_gender, user_lan);
         // Start the date function
-        get_date(user_lan)
+        get_date(user_lan);
         // Start the clock function
-        clock()
-        //Start Weather Information Retrieval
-        get_weather(user_temp, user_lan)
+        clock();
+        // Start Weather Information Retrieval
+        get_weather(weather_url, weather_apikey, weather_points_amount, user_temp, user_lan);
+        // Start Calender points Retrieval
+        get_calender(calender_url, calender_apikey, calender_points_amount, user_lan);
+        // Start Notes retrieval
+        get_notes(notes_url, notes_apikey, notes_points_amount, user_lan);
         // Set the correct header texts for the selected language
-        InterfaceLan(user_lan)
+        InterfaceLan(user_lan);
     </script>
 </body>
 </html>

@@ -1,16 +1,19 @@
 //Certain text for a certain languages
 const welcome_message_lang_nl = ["Goedenacht", "Goedemorgen", "Goedemiddag", "Goedenavond"];
 const welcome_message_lang_en = ["Good night", "Good morning", "Good afternoon", "Good evening"];
-const day_of_week_lang_nl = ["Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"]
-const day_of_week_lang_en = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-const month_lang_nl = ["Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "December"]
-const month_lang_en = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-const interface_header_text_lang_nl = ["Het weer voor vandaag:", "Uw agenda voor vandaag:", "Uw notities:"]
-const interface_header_text_lang_en = ["The weather for today:", "Your calendar for today:", "Your notes:"]
+const day_of_week_lang_nl = ["Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"];
+const day_of_week_lang_en = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const month_lang_nl = ["Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "December"];
+const month_lang_en = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const interface_header_text_lang_nl = ["Het weer voor vandaag:", "Uw agenda voor vandaag:", "Uw notities:"];
+const interface_header_text_lang_en = ["The weather for today:", "Your calendar for today:", "Your notes:"];
+//Processing flags
+let processing_calender_done = true;
+let processing_notes_done = true;
 
 function get_welcome_message(firstname, lastname, gender, lan) {
-    use_generic = false;
-    use_language = "EN";
+    let use_generic = false;
+    let use_language;
     // Perform a check to see if you need to use generic welcome messages or if you can use personal message
     if (firstname, lastname, gender === null || firstname, lastname, gender === undefined) {
         use_generic = true;
@@ -129,7 +132,7 @@ function get_welcome_message(firstname, lastname, gender, lan) {
 }
 
 function get_date(lan) {
-    use_language = "EN";
+    let use_language;
     // Check which language to use for the date message
     if (lan === "NL") {
         use_language = "NL";
@@ -138,10 +141,10 @@ function get_date(lan) {
     } else {
         use_language = "EN";
     }
-    current_datetime = new Date()
-    current_date = current_datetime.getDate()
-    current_dayoftheweek = current_datetime.getDay()
-    current_month = current_datetime.getMonth()
+    let current_datetime = new Date()
+    let current_date = current_datetime.getDate()
+    let current_dayoftheweek = current_datetime.getDay()
+    let current_month = current_datetime.getMonth()
 
     let string_dayofweek
     if (use_language === "NL") {
@@ -169,33 +172,54 @@ function get_date(lan) {
     }, 1800000);
 }
 
-function get_weather(tempstyle, lan) {
-    let use_celsius = tempstyle === "C";
+async function get_weather(url, apikey, amount_of_weather_points, temp_style, lan) {
+    let use_celsius = temp_style === "C";
 
-    let xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            //THIS IS TEMPORARY AND A JSON WILL BE UNPACKED HERE TO GENERATE THE REQUIRED WEATHER ITEMS
-            //TODO Implement a JSON to HTML item converter
-            temp = 2;
-        } else {
-            //THIS IS TEMPORARY AND A JSON WILL BE UNPACKED HERE TO GENERATE THE REQUIRED WEATHER ITEMS
-            //TODO Implement a JSON to HTML item converter
-            temp = 2;
-        }
-    };
-    xhttp.open("POST", "https://localhost:8080/weather/retrieve/smartmirror", true);
-    xhttp.setRequestHeader("api-key", "1234567890")
+    let headers = ["lan", "temp-style"];
+    let headers_content = [lan];
+
     if (use_celsius) {
-        xhttp.setRequestHeader("temp-style", "C")
+        headers_content += "C";
     } else {
-        xhttp.setRequestHeader("temp-style", "F")
+        headers_content += "F";
     }
-    xhttp.send();
+
+    let weather_data = await post_request(url, apikey, headers, headers_content);
+    //TODO Implement weather data processing of the JSON
 
     // Repeat this function after 1800000 milliseconds (0.5 hours)
     t = setTimeout(function () {
-        get_weather();
+        get_weather(url, apikey, amount_of_weather_points, temp_style, lan);
+    }, 1800000);
+}
+
+async function get_calender(url, apikey, amount, lan) {
+    if (processing_calender_done) {
+        processing_calender_done = false
+        let headers = ["lan", "amount"];
+        let headers_content = [lan, amount];
+        let calender_data = await post_request(url, apikey, headers, headers_content);
+        //TODO Implement calender data processing of the JSON
+        processing_calender_done = true
+    }
+    // Repeat this function after 1800000 milliseconds (0.5 hours)
+    t = setTimeout(function () {
+        get_calender(url, apikey, amount, lan);
+    }, 1800000);
+}
+
+async function get_notes(url, apikey, amount, lan) {
+    if (processing_notes_done) {
+        processing_notes_done = false
+        let headers = ["lan", "amount"];
+        let headers_content = [lan, amount];
+        let notes_data = await post_request(url, apikey, headers, headers_content);
+        //TODO Implement notes data processing of the JSON
+        processing_notes_done = true
+    }
+    // Repeat this function after 1800000 milliseconds (0.5 hours)
+    t = setTimeout(function () {
+        get_notes(url, apikey, amount, lan);
     }, 1800000);
 }
 
@@ -237,4 +261,23 @@ function InterfaceLan(lan) {
         document.getElementById("agenda-header").innerHTML = interface_header_text_lang_en[1]
         document.getElementById("notes-header").innerHTML = interface_header_text_lang_en[2]
     }
+}
+
+function post_request(url, apikey, headers, headers_content) {
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            return this.response
+        } else {
+            return "{\"error-code\":\"101\",\"error-message\":\"There was an error while trying to retrieve data, Please try again later or take a look at the problem\"}"
+        }
+    };
+    xhttp.open("POST", url, true);
+    xhttp.setRequestHeader("api-key", apikey)
+    let pos = 0;
+    for (let header in headers) {
+        let header_content = headers_content[pos]
+        xhttp.setRequestHeader(header, header_content)
+    }
+    xhttp.send();
 }

@@ -5,12 +5,13 @@ body {
 
     padding: 0;
     margin: 0;
+    overflow: hidden;
 }
 
 .container {
-    width: 80%;
+    width: 85%;
     margin: 5%;
-    padding: 5%;
+    padding: 2%;
     border: 4px solid white;
     border-radius: 25px;
 }
@@ -33,4 +34,28 @@ body {
 .table-weather {
     width: 100%;
     text-align: center;
+}
+
+.agenda-row, .notes-row {
+    width: 95%;
+    padding: 2%;
+    border: 4px solid white;
+    border-radius: 25px;
+}
+
+.agenda-row:first-child, .notes-row:first-child {
+    margin-bottom: 2%;
+}
+
+.agenda-row-header, .notes-row-header {
+    text-align: left;
+    font-size: 175%;
+}
+
+.agenda-row-time, .agenda-row-location {
+    font-size: 150%;
+}
+
+.notes-row-text {
+    font-size: 125%;
 }
